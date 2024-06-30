@@ -1,0 +1,18 @@
+{
+    "version": "0.1.1",
+    "configurations": [
+        {
+            "name": "pymft demo app",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "pymft/main.py",
+            "console": "integratedTerminal",
+            "args": [
+                "--test=Test String"
+            ],
+            "env": {
+                "PYTHONPATH": "${workspaceFolder}"
+            }
+        }
+    ]
+}
