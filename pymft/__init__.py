@@ -4,4 +4,4 @@ from .src.device_settings import DeviceSettings
 from .src.knob_settings import KnobSettings
 from .src.pymft import MidiFighterTwister
 
-__version__ = "0.1.1"
+__version__ = "0.1.2"

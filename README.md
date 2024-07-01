@@ -17,7 +17,14 @@ Future developments include:
 - **2-way Communication:** Send new knob values to the device to allow 2-way communication between the client code and the hardware
  - **Multiple MFT Devices:** Test with more than 1 MFT device and see if it works
 
-## Installation
+## Installtion
+This package is avialable on PyPI: https://pypi.org/project/pymft/
+
+```cmd
+  > pip install pymft
+```
+
+## Development
 This is a step by step guide to get the library set up on your machine.
 
  1. Install virtualenvwrapper
@@ -65,7 +72,6 @@ This is a step by step guide to get the library set up on your machine.
      > python .\pymft\pymft\main.py
    ```
 
-
 ### Run utilities
  1. Run black on the project
    ```cmd
@@ -75,6 +81,21 @@ This is a step by step guide to get the library set up on your machine.
    ```cmd
      > poetry run isort .
    ```
+
+# Release to PyPi
+ 1. Build the distribution
+   ```cmd
+     > python setup.py sdist
+   ```
+  2. Install twine and set up credentials
+    ```cmd
+      > python -m install twine
+      > vim ~/.pypirc  # Paste your credentials from pypi
+    ```
+  3. Publish to PyPi
+    ```cmd
+      > python -m twine upload dist/*
+    ```
 
 # Usage example
 
