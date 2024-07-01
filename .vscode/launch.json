@@ -8,7 +8,7 @@
             "program": "pymft/main.py",
             "console": "integratedTerminal",
             "args": [
-                "--test=Test String"
+                // "--test=Test String"
             ],
             "env": {
                 "PYTHONPATH": "${workspaceFolder}"

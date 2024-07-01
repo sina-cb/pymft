@@ -1,0 +1,47 @@
+[
+    {
+      "bank": "Bank1",
+      "encoder": "ENCODER_1",
+      "knob_type": "BIPOLAR",
+      "min_threshold": -10,
+      "max_threshold": 10,
+      "movement_type": "MOVEMENTTYPE_DIRECT_HIGHRESOLUTION",
+      "switch_action_type": "SWACTION_ENCRESETVALUE",
+      "encoder_midi_type": "MIDITYPE_SENDCC",
+      "led_color": "PINK",
+      "detent_color": "RED",
+      "indicator_display_type": "INDICATORTYPE_BLENDEDDOT"
+    },
+    {
+      "bank": "Bank1",
+      "encoder": "ENCODER_2",
+      "knob_type": "UNIPOLAR",
+      "led_color": "GREEN",
+      "min_threshold": 0,
+      "max_threshold": 1
+    },
+    {
+      "bank": "Bank1",
+      "encoder": "ENCODER_3",
+      "knob_type": "UNIPOLAR",
+      "led_color": "BLUE",
+      "min_threshold": 0,
+      "max_threshold": 4
+    },
+    {
+      "bank": "Bank1",
+      "encoder": "ENCODER_4",
+      "knob_type": "BIPOLAR",
+      "led_color": "RED",
+      "min_threshold": 0,
+      "max_threshold": 5
+    },
+    {
+      "bank": "Bank2",
+      "encoder": "ENCODER_1",
+      "knob_type": "BIPOLAR",
+      "led_color": "PINK",
+      "min_threshold": 0,
+      "max_threshold": 5
+    }
+  ]

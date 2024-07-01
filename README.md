@@ -29,3 +29,10 @@ This is a step by step guide to get the library set up on your machine.
    > poetry shell
  3. Run the main file
    > python .\pymft\pymft\main.py
+
+
+# Run utilities
+ 1. Run black on the project
+   > poetry run black .
+ 2. Run isort on the project
+   > poetry run isort .
