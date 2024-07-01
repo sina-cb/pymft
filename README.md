@@ -18,15 +18,6 @@ Future developments include:
  - **Multiple MFT Devices:** Test with more than 1 MFT device and see if it works
 
 ## Installation
-
-1. **Install Python:** Ensure that you have Python 3.7 or later installed on your system.
-2. **Install Dependencies:** Use `poetry` to install the library and its dependencies:
-
-   ```bash
-   poetry install
-   ```
-
-### More Information on Initial set up
 This is a step by step guide to get the library set up on your machine.
 
  1. Install virtualenvwrapper
