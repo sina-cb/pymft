@@ -2,6 +2,8 @@
 
 This library provides a simple and easy-to-use interface for interacting with the [Midi Fighter Twister](https://djtechtools.com/product/midifighter-twister/) controller in Python. 
 
+The code in this library is inspired from the [Chromatik MidiFighterTwister library](https://github.com/heronarts/LX/blob/dev/src/main/java/heronarts/lx/midi/surface/MidiFighterTwister.java).
+
 ## Features
 
 - **Easy Configuration:** Define knob configurations using the `MidiFighterTwister` class. This library is trying to asbtract the complexity of the Midi Fighter Twister controller interface out of the client code.
@@ -116,7 +118,7 @@ Contributions are welcome!
 Please submit pull requests for new features, bug fixes, or improvements.
 
 # License
-This library is licensed under the MIT License.
+This library is licensed under the GNU GENERAL PUBLIC License.
 
 # Contact
 If you have any questions or feedback, please open an issue on the GitHub repository.

@@ -36,6 +36,9 @@
       "min_threshold": 0,
       "max_threshold": 5
     },
+
+
+
     {
       "bank": "Bank2",
       "encoder": "ENCODER_1",
@@ -43,5 +46,18 @@
       "led_color": "PINK",
       "min_threshold": 0,
       "max_threshold": 5
+    },
+    {
+      "bank": "Bank2",
+      "encoder": "ENCODER_3",
+      "knob_type": "BIPOLAR",
+      "min_threshold": -2,
+      "max_threshold": 2,
+      "movement_type": "MOVEMENTTYPE_DIRECT_HIGHRESOLUTION",
+      "switch_action_type": "SWACTION_ENCRESETVALUE",
+      "encoder_midi_type": "MIDITYPE_SENDCC",
+      "led_color": "RED",
+      "detent_color": "BLUE",
+      "indicator_display_type": "INDICATORTYPE_BLENDEDDOT"
     }
   ]
