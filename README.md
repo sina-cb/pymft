@@ -90,7 +90,7 @@ This is a step by step guide to get the library set up on your machine.
    ```
   2. Install twine and set up credentials
     ```cmd
-      > python -m install twine
+      > python -m pip install twine
       > vim ~/.pypirc  # Paste your credentials from pypi
     ```
   3. Publish to PyPi
