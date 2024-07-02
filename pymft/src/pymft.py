@@ -27,6 +27,7 @@ class MidiFighterTwister:
         self._knob_subscriptions = {}
         self._reading_thread = None
         self._reading_thread_active = False
+        self.value_changed_callback = None
 
     def discover(self, device_id: int = None):
         """
@@ -350,7 +351,7 @@ class MidiFighterTwister:
                     cc
                 ].update_mapped_value()  # Update mapped value
 
-                if cc in self._knob_subscriptions.keys():
+                if self.value_changed_callback and cc in self._knob_subscriptions.keys():
                     self.value_changed_callback(
                         f"ENCODER_{cc + 1}",
                         self._config._encoders[cc].mapped_value,

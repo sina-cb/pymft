@@ -5,8 +5,17 @@ with open("pyproject.toml", encoding="utf-8") as f:
 
 setup(
     name="pymft",
-    version="0.1.3",
+    version="0.1.5",
     description="Library for Midi Fighter Twister Interfacing in Python",
+    long_description="""
+        # pymft: Python Midi Fighter Twister Library
+
+        This library provides a simple and easy-to-use interface for interacting\n
+        with the Midi Fighter Twister controller in Python. 
+
+        The code in this library is inspired from the Chromatik MidiFighterTwister library.
+        """,
+    long_description_content_type='text/markdown',
     author="Sina Solaimanpour",
     author_email="sinas.cb@gmail.com",
     packages=find_packages(exclude=["tests", "tests.*"]),
