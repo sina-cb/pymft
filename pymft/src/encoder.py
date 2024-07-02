@@ -33,9 +33,8 @@ class Encoder:
         self._sysex_tag = encoder_index + 1
         self.knob_settings = KnobSettings()
         self.value = 0  # Store the current encoder value
-        self.mapped_value = 0 # Store the mapped value
+        self.mapped_value = 0  # Store the mapped value
         self._last_value = 0
-        
 
     def set_detent(self, value: bool):
         """
@@ -47,7 +46,10 @@ class Encoder:
         """
         Sets the value of a specific setting.
         """
-        if setting_name in self._SETTING_ADDRESSES or setting_name in {"max", "min"}:
+        if setting_name in self._SETTING_ADDRESSES or setting_name in {
+            "max",
+            "min",
+        }:
             setattr(self.knob_settings, setting_name, value)
 
     def update_mapped_value(self):

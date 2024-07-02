@@ -1,12 +1,13 @@
-import traceback
+import json
 import threading
+import traceback
 
 import rtmidi
-import json
 
 from pymft.src.config import Config
 from pymft.src.constants import constants
 from pymft.src.knob_settings import KnobSettings
+
 
 class MidiFighterTwister:
     """
@@ -106,13 +107,20 @@ class MidiFighterTwister:
         """
         self._is_aux = is_aux
 
-    def start(self):
+    def configure(self):
         """
-        Sends the entire configuration to the device, activates
-        all subscribed knobs, and starts the background reading thread.
+        Sends the current configuration to the device.
         """
         self._config.send_all()
+
+    def start(self):
+        """
+        Starts the thread listening for MIDI messages.
+        """
         self._start_reading_thread()
+
+    def set_value_changed_callback(self, callback):
+        self.value_changed_callback = callback
 
     def subscribe(self, encoder: int, knob_settings: KnobSettings):
         """
@@ -140,10 +148,14 @@ class MidiFighterTwister:
                 )  # Remove "_" prefix from setting name
 
         # Hack to turn on the LED lights with default colors if the user did not set a specific color
-        if knob_settings.active_color is None and knob_settings.inactive_color is None:
-            encoder_obj.knob_settings.inactive_color =  encoder_obj.knob_settings.active_color
+        if (
+            knob_settings.active_color is None
+            and knob_settings.inactive_color is None
+        ):
+            encoder_obj.knob_settings.inactive_color = (
+                encoder_obj.knob_settings.active_color
+            )
 
-    ############################################
     def load_config(self, config_path: str):
         """
         Loads knob configurations from a JSON file.
@@ -201,7 +213,9 @@ class MidiFighterTwister:
         else:
             raise ValueError(f"Invalid encoder name: {encoder_name}")
 
-    def _create_knob_settings_from_config(self, knob_config: dict) -> KnobSettings:
+    def _create_knob_settings_from_config(
+        self, knob_config: dict
+    ) -> KnobSettings:
         """
         Creates a KnobSettings object from the knob configuration.
 
@@ -216,14 +230,23 @@ class MidiFighterTwister:
         min_threshold = float(knob_config["min_threshold"])
         max_threshold = float(knob_config["max_threshold"])
         movement_type = getattr(
-            constants.EncoderSettings, knob_config.get("movement_type", "MOVEMENTTYPE_DIRECT_HIGHRESOLUTION")
+            constants.EncoderSettings,
+            knob_config.get(
+                "movement_type", "MOVEMENTTYPE_DIRECT_HIGHRESOLUTION"
+            ),
         )
         encoder_midi_type = getattr(
-            constants.EncoderSettings, knob_config.get("encoder_midi_type", "MIDITYPE_SENDCC")
+            constants.EncoderSettings,
+            knob_config.get("encoder_midi_type", "MIDITYPE_SENDCC"),
         )
-        detent_color = getattr(constants.DetentColorValues, knob_config.get("detent_color", "PINK"))
+        detent_color = getattr(
+            constants.DetentColorValues, knob_config.get("detent_color", "PINK")
+        )
         indicator_display_type = getattr(
-            constants.EncoderSettings, knob_config.get("indicator_display_type", "INDICATORTYPE_BLENDEDBAR")
+            constants.EncoderSettings,
+            knob_config.get(
+                "indicator_display_type", "INDICATORTYPE_BLENDEDBAR"
+            ),
         )
 
         return KnobSettings(
@@ -236,7 +259,6 @@ class MidiFighterTwister:
             detent_color=detent_color,
             indicator_display_type=indicator_display_type,
         )
-    ############################################
 
     def _start_reading_thread(self):
         """
@@ -244,7 +266,9 @@ class MidiFighterTwister:
         """
         if self._reading_thread is None:
             self._reading_thread_active = True
-            self._reading_thread = threading.Thread(target=self._read_messages_loop)
+            self._reading_thread = threading.Thread(
+                target=self._read_messages_loop
+            )
             self._reading_thread.daemon = True  # Allow main thread to exit even if reading thread is running
             self._reading_thread.start()
 
@@ -260,7 +284,7 @@ class MidiFighterTwister:
         Returns the current values of all knobs.
         """
         return {
-            encoder_index: encoder.mapped_value 
+            encoder_index: encoder.mapped_value
             for encoder_index, encoder in enumerate(self._config._encoders)
         }
 
@@ -280,7 +304,7 @@ class MidiFighterTwister:
         """
         return {
             encoder_index: encoder.mapped_value
-            for encoder_index, encoder in enumerate(self._config._encoders) 
+            for encoder_index, encoder in enumerate(self._config._encoders)
             if encoder_index in self._knob_subscriptions
         }
 
@@ -290,8 +314,10 @@ class MidiFighterTwister:
         """
         changed_values = {}
         for encoder_index, encoder in enumerate(self._config._encoders):
-            if (encoder_index in self._knob_subscriptions and 
-                encoder.has_changed()):
+            if (
+                encoder_index in self._knob_subscriptions
+                and encoder.has_changed()
+            ):
                 changed_values[encoder_index] = encoder.mapped_value
         return changed_values
 
@@ -309,10 +335,10 @@ class MidiFighterTwister:
 
     def _handle_midi_message(self, message):
         """
-        Handles incoming MIDI messages from the device. 
+        Handles incoming MIDI messages from the device.
         """
         msg = message[0]
-        if len(msg) == 3:  
+        if len(msg) == 3:
             channel = msg[0] & 0xF
             cc = msg[1]
             value = msg[2]
@@ -320,7 +346,15 @@ class MidiFighterTwister:
             # Update encoder value if the message is from an encoder
             if channel == constants.MidiChannels.ROTARY_ENCODER:
                 self._config._encoders[cc].value = value
-                self._config._encoders[cc].update_mapped_value() # Update mapped value
+                self._config._encoders[
+                    cc
+                ].update_mapped_value()  # Update mapped value
+
+                if cc in self._knob_subscriptions.keys():
+                    self.value_changed_callback(
+                        f"ENCODER_{cc + 1}",
+                        self._config._encoders[cc].mapped_value,
+                    )
 
     def close(self):
         """
@@ -330,7 +364,7 @@ class MidiFighterTwister:
         if self._reading_thread is not None:
             self._reading_thread.join()  # Wait for thread to finish
             self._reading_thread = None
-        
+
         if self._midi_in and self._input_port is not None:
             self._midi_in.close_port()
         if self._midi_out and self._output_port is not None:

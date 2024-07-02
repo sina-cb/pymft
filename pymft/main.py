@@ -3,6 +3,11 @@ import time
 
 from pymft import KnobSettings, MidiFighterTwister, constants
 
+
+def value_changed_callback(encoder, value):
+    print(f"Encoder {encoder} changed to {value}")
+
+
 def run():
     """
     Demo usage of the pymft library.
@@ -17,7 +22,9 @@ def run():
         mft.config.initialize_defaults()
 
         # Load configuration from JSON file
-        config_path = "./pymft/sample_config.json"  # Path to your JSON config file
+        config_path = (
+            "./pymft/sample_config.json"  # Path to your JSON config file
+        )
         mft.load_config(config_path)
 
         # Maybe even fruther customize the loaded config for a specific encoder
@@ -29,10 +36,13 @@ def run():
                 min_threshold=-10,
                 max_threshold=10,
                 movement_type=constants.EncoderSettings.MOVEMENTTYPE_DIRECT_HIGHRESOLUTION,
-                detent_color=constants.DetentColorValues.BLUE
+                detent_color=constants.DetentColorValues.BLUE,
             ),
         )
 
+        mft.set_value_changed_callback(value_changed_callback)
+
+        mft.configure()
         mft.start()  # Start the reading thread
 
         while True:
@@ -40,7 +50,7 @@ def run():
             active_changed_knob_values = mft.read_active_changed()
             if active_changed_knob_values:
                 print("Active changed knob values:", active_changed_knob_values)
-            
+
             # Or read all active knob values
             active_knob_values = mft.read_active()
             if active_changed_knob_values:

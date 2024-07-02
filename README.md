@@ -11,6 +11,7 @@ The code in this library is inspired from the [Chromatik MidiFighterTwister libr
 - **Easy Subscription:** Subscribe to knob changes using `mft.subscribe()`, which automatically applies the defined knob settings to the device.
 - **Efficient Reading:**  The library handles reading knob values in the background, allowing you to efficiently query changes using functions like `read_all_changed()`, `read_active_changed()`, `read_all()`, and `read_active()`.
 - **JSON Configuration:** Load knob configurations from JSON files, allowing you to define and manage settings easily.
+- **Value Change Callback:** Call a function when the value of a knob changes to avoid expensive while loops.
 
 Future developments include:
 - **Non-linear Mapping:** Support non-linear min-max mapping for knob values

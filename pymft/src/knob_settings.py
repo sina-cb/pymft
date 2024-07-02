@@ -17,12 +17,17 @@ class KnobSettings:
         knob_type: KnobType | None = None,
         min_threshold: float | None = None,
         max_threshold: float | None = None,
-        movement_type: int | None = None, # Use values from constants.EncoderSettings.MOVEMENTTYPE_*
-        switch_action_type: int | None = None, # Use values from constants.EncoderSettings.SWACTION_*
-        encoder_midi_type: int | None = None, # Use values from constants.EncoderSettings.MIDITYPE_*
-        led_color: int | None = None, # Use values from constants.ColorValues
-        detent_color: int | None = None, # Use values from constants.DetentColorValues
-        indicator_display_type: int | None = None, # Use values from constants.EncoderSettings.INDICATORTYPE_*
+        movement_type: int
+        | None = None,  # Use values from constants.EncoderSettings.MOVEMENTTYPE_*
+        switch_action_type: int
+        | None = None,  # Use values from constants.EncoderSettings.SWACTION_*
+        encoder_midi_type: int
+        | None = None,  # Use values from constants.EncoderSettings.MIDITYPE_*
+        led_color: int | None = None,  # Use values from constants.ColorValues
+        detent_color: int
+        | None = None,  # Use values from constants.DetentColorValues
+        indicator_display_type: int
+        | None = None,  # Use values from constants.EncoderSettings.INDICATORTYPE_*
     ):
 
         # Internal setting values and modification flag
@@ -34,8 +39,16 @@ class KnobSettings:
         else:
             self._detent = constants.SysExValues.FALSE
 
-        self._min = min_threshold if min_threshold is not None else (-1 if knob_type == self.KnobType.BIPOLAR else 0)
-        self._max = max_threshold if max_threshold is not None else (1 if knob_type == self.KnobType.BIPOLAR else 1)
+        self._min = (
+            min_threshold
+            if min_threshold is not None
+            else (-1 if knob_type == self.KnobType.BIPOLAR else 0)
+        )
+        self._max = (
+            max_threshold
+            if max_threshold is not None
+            else (1 if knob_type == self.KnobType.BIPOLAR else 1)
+        )
         assert self._min < self._max, "min must be less than max"
 
         self._movement_type = movement_type

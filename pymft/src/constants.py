@@ -118,10 +118,12 @@ class ColorValues:
     AUX: int = RED  # Default color for aux channel
     USER: int = GREEN  # Default color for user-defined color
 
+
 class DetentColorValues:
     """
     MIDI values for setting the detent color on the encoders.
     """
+
     RED = 0
     PINK = 63
     BLUE = 127
