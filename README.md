@@ -84,16 +84,20 @@ This is a step by step guide to get the library set up on your machine.
    ```
 
 # Release to PyPi
- 1. Build the distribution
+ 1. Install setuptools: 
+ ```
+    > pip install setuptools
+ ```
+ 2. Build the distribution (update setup.py and __init__ versions)
    ```cmd
      > python setup.py sdist
    ```
-  2. Install twine and set up credentials
+ 3. Install twine and set up credentials
     ```cmd
       > python -m pip install twine
       > vim ~/.pypirc  # Paste your credentials from pypi
     ```
-  3. Publish to PyPi
+4. Publish to PyPi
     ```cmd
       > python -m twine upload dist/*
     ```

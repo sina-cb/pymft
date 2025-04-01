@@ -351,7 +351,10 @@ class MidiFighterTwister:
                     cc
                 ].update_mapped_value()  # Update mapped value
 
-                if self.value_changed_callback and cc in self._knob_subscriptions.keys():
+                if (
+                    self.value_changed_callback
+                    and cc in self._knob_subscriptions.keys()
+                ):
                     self.value_changed_callback(
                         f"ENCODER_{cc + 1}",
                         self._config._encoders[cc].mapped_value,
@@ -376,3 +379,32 @@ class MidiFighterTwister:
 
     def __exit__(self, exc_type, exc_val, exc_tb):
         self.close()
+
+    def set_encoder_value(self, encoder: int, value: float):
+        """
+        Sets the value of a specific encoder.
+
+        Args:
+            encoder: The encoder index (0-63)
+            value: The value to set. This should be within the min/max range defined for the encoder.
+        """
+        if encoder not in range(constants.Encoders.DEVICE_KNOB_NUM):
+            raise ValueError("Invalid encoder index. Valid range is 0-63")
+
+        encoder_obj = self._config._encoders[encoder]
+
+        # Convert the value to the 0-127 MIDI range based on the encoder's min/max settings
+        normalized_value = (value - encoder_obj.knob_settings.min) / (
+            encoder_obj.knob_settings.max - encoder_obj.knob_settings.min
+        )
+        midi_value = int(normalized_value * 127)
+        midi_value = max(0, min(127, midi_value))  # Clamp to valid MIDI range
+
+        # Update the internal state
+        encoder_obj.value = midi_value
+        encoder_obj.mapped_value = value
+
+        # Send the value to the device
+        self._send_control_change(
+            constants.MidiChannels.ROTARY_ENCODER, encoder, midi_value
+        )

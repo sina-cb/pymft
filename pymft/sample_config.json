@@ -36,8 +36,14 @@
       "min_threshold": 0,
       "max_threshold": 5
     },
-
-
+    {
+      "bank": "Bank1",
+      "encoder": "ENCODER_5",
+      "knob_type": "BIPOLAR",
+      "led_color": "YELLOW",
+      "min_threshold": -1,
+      "max_threshold": 1
+    },
 
     {
       "bank": "Bank2",

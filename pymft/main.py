@@ -1,4 +1,5 @@
 import argparse
+import math
 import time
 
 from pymft import KnobSettings, MidiFighterTwister, constants
@@ -45,6 +46,12 @@ def run():
         mft.configure()
         mft.start()  # Start the reading thread
 
+        # create a sine wave and set the encoder value to the sine wave
+        # make the sine wave a very wide sine so the wave moves slowly
+        # make the sine wave have a range of -1 to 1
+        sine_wave = [math.sin(x / 10) * 10 for x in range(1000)]
+        sine_wave_index = 0
+
         while True:
             # Read only active changed knob values
             active_changed_knob_values = mft.read_active_changed()
@@ -55,6 +62,13 @@ def run():
             active_knob_values = mft.read_active()
             if active_changed_knob_values:
                 print("Active knob values:", active_knob_values)
+
+            mft.set_encoder_value(
+                constants.Encoders.Bank1.ENCODER_5, sine_wave[sine_wave_index]
+            )
+            sine_wave_index += 1
+            if sine_wave_index >= len(sine_wave):
+                sine_wave_index = 0
 
             time.sleep(0.01)  # Add a small delay
 
