@@ -4,7 +4,7 @@ url = "https://pypi.org/simple"
 
 [tool.poetry]
 name = "pymft"
-version = "0.1.5" # Also change pymft.__init__.py and setup.py's version
+version = "0.1.7" # Also change pymft.__init__.py and setup.py's version
 description = "Library for Midi Fighter Twister Interfacing in Python"
 authors = ["Sina Solaimanpour <sinas.cb@gmail.com>"]
 

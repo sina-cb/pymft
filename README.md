@@ -88,7 +88,7 @@ This is a step by step guide to get the library set up on your machine.
  ```
     > pip install setuptools
  ```
- 2. Build the distribution (update setup.py and __init__ versions)
+ 2. Build the distribution (update setup.py, __init__ versions, and pyproject.toml)
    ```cmd
      > python setup.py sdist
    ```

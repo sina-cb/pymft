@@ -5,7 +5,7 @@ with open("pyproject.toml", encoding="utf-8") as f:
 
 setup(
     name="pymft",
-    version="0.1.6",
+    version="0.1.7",
     description="Library for Midi Fighter Twister Interfacing in Python",
     long_description="""
         # pymft: Python Midi Fighter Twister Library
